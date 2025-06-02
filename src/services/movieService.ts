@@ -1,5 +1,4 @@
 import axios from "axios";
-import toast from "react-hot-toast";
 import type { Movie } from "../types/movie";
 
 interface ResponseData {
@@ -20,14 +19,13 @@ const options = {
 
 const url = `https://api.themoviedb.org/3/search/movie`;
 
-export default async function fetchMovies(userRequest: string, page: number) {
+export default async function fetchMovies(
+  userRequest: string,
+  page: number
+): Promise<ResponseData> {
   const response = await axios.get<ResponseData>(
     `${url}?query=${userRequest}&page=${page}`,
     options
   );
-  if (response.data.results.length === 0) {
-    toast.error("No movies found for your request.");
-    return { results: [], total_pages: 0 };
-  }
   return response.data;
 }
